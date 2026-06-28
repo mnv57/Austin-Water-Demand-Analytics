@@ -1,0 +1,50 @@
+AUSTIN TX WATER DEMAND — MODEL EVALUATION REPORT
+============================================================
+
+MODEL: Gradient Boosting Regressor (sklearn)
+  n_estimators  : 300
+  max_depth     : 4
+  learning_rate : 0.05
+  loss          : huber (robust to outliers)
+  subsample     : 0.8
+
+CROSS-VALIDATION (TimeSeriesSplit, 5 folds, walk-forward)
+------------------------------------------------------------
+  Fold    Train  Test Period                        MAPE       R²
+------------------------------------------------------------
+  1         177   174 2023-07-12 → 2024-01-06     13.71%   0.3295
+  2         351   174 2024-01-07 → 2024-07-09      3.92%   0.8798
+  3         525   174 2024-07-10 → 2024-12-31      3.64%   0.5543
+  4         699   174 2025-01-01 → 2025-07-08      3.67%   0.7060
+  5         873   174 2025-07-09 → 2025-12-31      2.08%   0.9776
+------------------------------------------------------------
+  MEAN                                             5.40%   0.6894
+  STD                                              4.21%   0.2313
+
+IN-SAMPLE PERFORMANCE (final model, full training set)
+------------------------------------------------------------
+  MAPE : 1.25%
+  RMSE : 10,179,554 gal/day
+  R²   : 0.8135
+
+TOP 10 FEATURE IMPORTANCES
+------------------------------------------------------------
+   1. doy_cos                   0.3964
+   2. month_cos                 0.2233
+   3. demand_lag_1              0.1269
+   4. demand_lag_365            0.1146
+   5. demand_roll7_mean         0.0657
+   6. demand_lag_7              0.0377
+   7. temp_roll7_mean           0.0112
+   8. demand_lag_2              0.0061
+   9. doy_sin                   0.0038
+  10. dow_sin                   0.0024
+
+JANUARY 2026 FORECAST SUMMARY
+------------------------------------------------------------
+  Total projected volume : 1.910 Billion gallons
+  Daily mean forecast    : 63.68M gal/day
+  YoY change vs Jan 2025 : +2.1%
+  Peak day               : 2026-01-04 @ 68.77M gal
+  Trough day             : 2026-01-27 @ 60.78M gal
+  Reserve recommendation : 74M gal (80th percentile coverage)
